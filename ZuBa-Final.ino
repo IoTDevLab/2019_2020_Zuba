@@ -1,4 +1,5 @@
-/******ZUBA ********/
+/********ZUBA SOLUTIONS*********/
+/**This code controls ZUBA bins**/
 #include <Servo.h> 
 #include <Q2HX711.h>
 #include <ModuleSerialCore.h>
@@ -244,22 +245,6 @@ void loop(){
       }
       delay(100);
 
-//    // Clears the lidOpenTrigPin
-//    digitalWrite(lidOpenTrigPin, LOW);
-//    delayMicroseconds(2);
-//    
-//    // Sets the lidOpenTrigPin on HIGH state for 10 micro seconds
-//    digitalWrite(lidOpenTrigPin, HIGH);
-//    delayMicroseconds(10);
-//    digitalWrite(lidOpenTrigPin, LOW);
-//    
-//    // Reads the lidOpenEchoPin, returns the sound wave travel time in microseconds
-//    duration = pulseIn(lidOpenEchoPin, HIGH);
-//    
-//    // Calculating the distance
-//    distance= duration*0.034/2;
-//    Serial.print("Distance: ");
-//    Serial.println(distance);
         proximity();
     if (proximity() < 15){
          if(binHeight()<19){
@@ -280,26 +265,6 @@ void loop(){
           }
       }
      else{
-//          Servo1.write(0); 
-//          Serial.println("CLOSED-FP");
-//          digitalWrite(servoPin,LOW);
-//          // Clears the wasteHeightTrigPin  
-//          digitalWrite(wasteHeightTrigPin , LOW);
-//          delayMicroseconds(2);
-//          
-//          // Sets the wasteHeightTrigPin on HIGH state for 10 micro seconds
-//          digitalWrite(wasteHeightTrigPin, HIGH);
-//          delayMicroseconds(10);
-//          digitalWrite(wasteHeightTrigPin, LOW);
-//          
-//          // Reads the wasteHeightEchoPin, returns the sound wave travel time in microseconds
-//          durationWasteUtrasonic = pulseIn(wasteHeightEchoPin, HIGH);
-//          
-//          // Calculating the height of the bin.
-//          heightOfWaste= durationWasteUtrasonic*0.034/2;
-//          Serial.print("Height of waste is: ");
-//          Serial.println(heightOfWaste);
-
           binHeight();
           //measuring the weight
           weight = measureWeight();
@@ -318,9 +283,7 @@ void loop(){
 
     float LNG = gpsData.lng;
     float LAT = gpsData.lat;
-  
-//  heightOfWasteK = (heightOfWaste/48)*100
-//   weightK = weight/5000)*5        
+          
     char buf[121];
     String id = String(binId);
     String c_level = String(heightOfWaste);
@@ -328,22 +291,7 @@ void loop(){
     String s_noti = String(smokeDetected);// Not sure if this will work ..boolean...
     String loc_long = ftos(LNG);
     String loc_lat = ftos(LAT);
-//
-//    String id = String(binId);
-//    String c_level = heightOfWaste;
-//    String c_weight = mass;
-//    String s_noti = smokeDetected;// Not sure if this will work ..boolean...
-//    String loc_long = ftos(LNG);
-//    String loc_lat = ftos(LAT);
-
-//           snprintf(buf,120,"http://zuba-app.herokuapp.com/api/v1/b/u?i=%s&cl=%s&cw=%s&sn=%s&lg=%s&lt=%s",id.c_str(),c_level.c_str(),c_weight.c_str(),s_noti.c_str(),loc_long.c_str(),loc_lat.c_str());
-//          Serial.print("RAW URL = ");
-//          Serial.println(buf);
-//          
-//          bool success = false; 
-//          Serial.print("URL = ");
-//          Serial.println(buf);
-//          request(buf,&success);
+    
     if(heightOfWaste < 15 ){
           //Api End point when bin is full
           snprintf(buf,120,"http://zuba-app.herokuapp.com/api/v1/b?i=%s&cl=%s&cw=%s&sn=%s&lg=%s&lt=%s",id.c_str(),c_level.c_str(),c_weight.c_str(),s_noti.c_str(),loc_long.c_str(),loc_lat.c_str());
